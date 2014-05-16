@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os, subprocess, sys
-
+seqprep_binary = "/home/hugow/bin/SeqPrep"
 
 def trim(infile, n_bases):
 	"""Trim away primer sequences (n number of bases at the beginning of the sequence)"""
@@ -41,7 +41,7 @@ def merge(fwd, rev):
 	if not os.path.isdir('merged'):
 		os.makedirs('merged')	
 
-	merge_cmd = "/home/hugow/bin/SeqPrep -f %s -r %s -s %s -1 %s -2 %s" % (fwd, rev, merged, unm1, unm2)
+	merge_cmd = "%s -f %s -r %s -s %s -1 %s -2 %s" % (seqprep_binary, fwd, rev, merged, unm1, unm2)
 	print "Start merging:\n"
 	merge = subprocess.Popen(merge_cmd, shell=True)
 	merge.wait()
