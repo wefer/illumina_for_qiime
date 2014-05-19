@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import os, subprocess, sys
+import yaml
 seqprep_binary = "/home/hugow/bin/SeqPrep"
+
+stream = open('config.yaml', 'r')
+print yaml.load(stream)
 
 def trim(infile, n_bases):
 	"""Trim away primer sequences (n number of bases at the beginning of the sequence)"""
