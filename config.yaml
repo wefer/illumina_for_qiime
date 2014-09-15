@@ -2,3 +2,4 @@ fwd_bases_to_trim: 17                   #Number of bases to trim from the beginn
 rev_bases_to_trim: 21                   #Number of bases to trim from the beginning of the reverse read, i.e the primer seqence
 seqprep_loc: /home/hugow/bin/SeqPrep    #Absolute path for the SeqPrep binary
 ID_translation_map: id_map.txt          #Translation map for sample names. Comma separated (old name, new name)
+subsample : 250000			#How many reads per sample to include in the combined file, leave empty for no subsampling
