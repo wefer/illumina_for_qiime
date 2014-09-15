@@ -2,10 +2,14 @@
 
 import os, subprocess, sys
 import yaml
-seqprep_binary = "/home/hugow/bin/SeqPrep"
 
-stream = open('config.yaml', 'r')
-print yaml.load(stream)
+
+with open('config.yaml', 'r') as f:
+	params =  yaml.load(f)
+	seq_prep = params['seqprep_loc']
+	R1_bases_trim = params['fwd_bases_to_trim']
+	R2_bases_trim = params['rev_bases_to_trim']
+
 
 def trim(infile, n_bases):
 	"""Trim away primer sequences (n number of bases at the beginning of the sequence)"""
@@ -25,7 +29,6 @@ def trim(infile, n_bases):
 			else:
 				o.write(line[n_bases:])
 				flag = 0
-
 	o.close()
 	return outfile
 
@@ -34,10 +37,10 @@ def merge(fwd, rev):
 	"""Send sequences to SeqPrep for merging"""
 
 	filend = fwd.split('.')[-1]
-	basename = fwd.split('R1')[0].split('/')[-1]
-	merged = 'merged/' + basename + 'merg.' + filend + '.gz'
-	unm1 = 'unmerged/' + basename + 'R1_unm.' + filend + '.gz'
-	unm2 = 'unmerged/' + basename + 'R2_unm.' + filend + '.gz'
+	basename = fwd.split('_R1')[0].split('/')[-1]
+	merged = 'merged/' + basename + '_merg.' + filend + '.gz'
+	unm1 = 'unmerged/' + basename + '_R1_unm.' + filend + '.gz'
+	unm2 = 'unmerged/' + basename + '_R2_unm.' + filend + '.gz'
 
 	#Create directories for output
 	if not os.path.isdir('unmerged'):
@@ -52,23 +55,21 @@ def merge(fwd, rev):
 	return merge.returncode
 
 
-def run_pipe(fwd, rev):
+def run_pipe(fwd, rev, R1_bases_trim, R2_bases_trim):
 	"""Run trim and merge on forward and reverse sequences"""	
 
-	R1_n_bases = 22
-	R2_n_bases = 21
-	t1 = trim(fwd, R1_n_bases)
-	t2 = trim(rev, R2_n_bases)
+	t1 = trim(fwd, R1_bases_trim)
+	t2 = trim(rev, R2_bases_trim)
 	merge(t1, t2)
 	return 0
 
 def main():
-	files = [x for x in os.listdir('./') if "R1" in x]
-	for file in files:
-		fwd = file
-		rev = file.replace('R1', 'R2')
+	files = [x for x in os.listdir('./') if "_R1" in x]
+	for f in files:
+		fwd = f
+		rev = f.replace('_R1', '_R2')
 		print fwd, rev
-		run_pipe(fwd, rev)
+		run_pipe(fwd, rev, R1_bases_trim, R2_bases_trim)
 
 
 

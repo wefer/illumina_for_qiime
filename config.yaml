@@ -1,4 +1,4 @@
-fwd_bases_to_trim: 22                   #Number of bases to trim from the beginning of the forward read, i.e the primer seqence
+fwd_bases_to_trim: 17                   #Number of bases to trim from the beginning of the forward read, i.e the primer seqence
 rev_bases_to_trim: 21                   #Number of bases to trim from the beginning of the reverse read, i.e the primer seqence
 seqprep_loc: /home/hugow/bin/SeqPrep    #Absolute path for the SeqPrep binary
 ID_translation_map: id_map.txt          #Translation map for sample names. Comma separated (old name, new name)
