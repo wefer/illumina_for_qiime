@@ -23,15 +23,15 @@ def header_rename(infile, sample_name, barcode):
 def map_create(sample_name, barcode, description, mapfile):
 	print sample_name
 	if not os.path.isfile(mapfile):
-		map = open(mapfile, 'w')
+		qmap = open(mapfile, 'w')
 		base_header = "#SampleID\tBarcodeSequence\tLinkerPrimerSequence\tDescription\n"
-		map.write(base_header)
+		qmap.write(base_header)
 	else:
-		map=open(mapfile, 'a')
+		qmap=open(mapfile, 'a')
 
 	content = "%s\t%s\t%s\t%s\n" % (sample_name, barcode, "CCTACGGGNGGCWGCAG", description)
-	map.write(content)
-	map.close()
+	qmap.write(content)
+	qmap.close()
 	return 0
 
 
