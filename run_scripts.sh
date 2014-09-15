@@ -5,11 +5,10 @@
 sub_reads=$(awk -F: '/subsample/ {print $2}' <(cat config.yaml | tr -d ' ' ) | cut -f 1); echo $sub_reads
 
 python remap.py
-python illumina_pipeline.py
-ln -s header_rename.py merged/header_rename.py
+python illumina_pipeline.py && ln -s header_rename.py merged/header_rename.py
 cd merged
 gunzip *.gz
-pyhon header_rename.py
+python header_rename.py
 
 if [ ! -z $sub_reads ]
 	then
